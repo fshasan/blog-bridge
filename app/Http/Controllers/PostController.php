@@ -14,7 +14,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        return view('posts.index');
     }
 
     /**
@@ -35,7 +35,14 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|max:100',
+            'description' => 'required',
+        ]);
+ 
+        $request->user()->chirps()->create($validated);
+ 
+        return redirect(route('posts.index'));
     }
 
     /**
