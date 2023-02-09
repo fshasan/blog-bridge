@@ -4,6 +4,7 @@
             @csrf
             <label for="title">Title</label>
             <input id="title" placeholder="{{ __('Give a title') }}" class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" name="title" type="text">
+            <x-input-error :messages="$errors->get('title')" class="mt-2" />
             <label for="description">Description</label>
             <textarea
                 id="description"
@@ -25,8 +26,28 @@
                             <div>
                                 <span class="text-gray-800">{{ $post->user->name }}</span>
                                 <small class="ml-2 text-sm text-gray-600">{{ $post->created_at }}</small>
+                                @unless ($post->created_at->eq($post->updated_at))
+                                <small class="text-sm text-gray-600"> &middot; {{ __('edited') }}</small>
+                                @endunless
                             </div>
+                            @if ($post->user->is(auth()->user()))
+                                <x-dropdown>
+                                    <x-slot name="trigger">
+                                        <button>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                                <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                            </svg>
+                                        </button>
+                                    </x-slot>
+                                    <x-slot name="content">
+                                        <x-dropdown-link :href="route('posts.edit', $post)">
+                                            {{ __('Edit') }}
+                                        </x-dropdown-link>
+                                    </x-slot>
+                                </x-dropdown>
+                            @endif
                         </div>
+                        <p class="mt-4 text-lg text-gray-900"><i>{{ $post->title }}</i></p>
                         <p class="mt-4 text-lg text-gray-900">{{ $post->description }}</p>
                     </div>
                 </div>
