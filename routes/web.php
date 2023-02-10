@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('plans', [PlanController::class, 'index'])->name('membership.plan');
     Route::get('plans/{plan}', [PlanController::class, 'show'])->name('membership.show');
+    Route::post('subscription', [PlanController::class, 'subscription'])->name('subscription.create');
 });
 
 require __DIR__.'/auth.php';
