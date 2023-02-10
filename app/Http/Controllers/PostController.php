@@ -5,14 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Enums\PostsPerDay;
+use App\Enums\PlanType;
+use Carbon\Carbon;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $posts = Post::with('user')->latest()->get();
@@ -20,51 +19,51 @@ class PostController extends Controller
         return view('posts.index', compact('posts'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'title' => 'required|string|max:100',
-            'description' => 'required',
-        ]);
- 
-        $request->user()->posts()->create($validated);
- 
-        return redirect(route('posts.index'));
+    {   
+        $userSubscription = $this->getCurrentSubscription();
+
+        $count = $this->totalPostsToday();
+
+        if(($userSubscription->stripe_price == PlanType::FREE) && ($count == PostsPerDay::FREE_USER_LIMIT))
+        {
+            return redirect(route('posts.index'))->with('warning', "Free users are not allowed to publish more than two (2) posts a day!");
+        }
+        else
+        {
+            $validated = $request->validate([
+                'title' => 'required|string|max:100',
+                'description' => 'required',
+            ]);
+
+            $request->user()->posts()->create($validated);
+     
+            return redirect(route('posts.index'))->with('success', "Post created successfully!");
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Post $post)
+    public function totalPostsToday()
     {
-        //
+        $data = Post::with('user')
+                ->where('user.id', Auth::id())
+                ->where('created_at', '>=', Carbon::now()->startOfDay())
+                ->count();
+        
+        return $data;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
+    public function getCurrentSubscription()
+    {
+        $data = DB::table('subscriptions')->where('user_id', Auth::id());
+
+        return $data;
+    }
+
     public function edit(Post $post)
     {
         $this->authorize('update', $post);
@@ -74,13 +73,6 @@ class PostController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Post $post)
     {
         $this->authorize('update', $post);
@@ -95,12 +87,7 @@ class PostController extends Controller
         return redirect(route('posts.index'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Post $post)
     {
         $this->authorize('delete', $post);

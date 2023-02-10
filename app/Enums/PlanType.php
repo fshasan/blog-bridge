@@ -4,6 +4,6 @@ namespace App\Enums;
 
 interface PlanType
 {
-    const FREE = 1;
-    const PREMIUM = 2;
+    const FREE = 'price_1MZJZGCSkADIfETSEpthV6Gv';
+    const PREMIUM = 'price_1MZKPmCSkADIfETSGC99rc37';
 }
