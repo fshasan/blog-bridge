@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -42,7 +43,7 @@ class PostController extends Controller
             'description' => 'required',
         ]);
  
-        $request->user()->chirps()->create($validated);
+        $request->user()->posts()->create($validated);
  
         return redirect(route('posts.index'));
     }
