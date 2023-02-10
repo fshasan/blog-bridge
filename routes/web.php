@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
 // membership plan
 Route::middleware('auth')->group(function () {
     Route::get('plans', [PlanController::class, 'index'])->name('membership.plan');
+    Route::get('plans/{plan}', [PlanController::class, 'show'])->name('membership.show');
 });
 
 require __DIR__.'/auth.php';

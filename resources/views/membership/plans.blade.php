@@ -20,7 +20,7 @@
                             <i class="fa fa-check mr-2 text-primary"></i> {{ $plan->description }}
                         </li>
                     </ul>
-                    <x-primary-button class="mt-4">Buy now</x-primary-button>
+                    <a href="{{ route('membership.show', $plan->slug) }}" class="btn btn-primary btn-block shadow rounded-pill"><b>Buy Now</b></a>
                 </div>
             </div>
         </div>
