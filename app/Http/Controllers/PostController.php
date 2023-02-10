@@ -59,7 +59,7 @@ class PostController extends Controller
 
     public function getCurrentSubscription()
     {
-        $data = DB::table('subscriptions')->where('user_id', Auth::id());
+        $data = DB::table('subscriptions')->where('user_id', Auth::id())->get();
 
         return $data;
     }
