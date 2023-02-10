@@ -19,6 +19,9 @@
                     <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
                         {{ __('Posts') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('membership.plan')" :active="request()->routeIs('membership.plan')">
+                        {{ __('Purchase Plan') }}
+                    </x-nav-link>
                 @else
                     
                 @endif
