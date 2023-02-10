@@ -9,6 +9,7 @@ class PlanController extends Controller
 {
     public function index()
     {
-        return view('membership.plans'); 
+        $plans = Plan::get();
+        return view('membership.plans', compact('plans')); 
     }
 }
