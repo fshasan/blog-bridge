@@ -4,5 +4,5 @@ namespace App\Enums;
 
 interface PostsPerDay
 {
-    const FREE_USER = 2;
+    const FREE_USER_LIMIT = 2;
 }
