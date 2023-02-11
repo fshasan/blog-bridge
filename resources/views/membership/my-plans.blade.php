@@ -8,9 +8,11 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
-                    @foreach ($memberships as $membership)
-                        <p>{{$membership->name}}</p>
-                    @endforeach
+                    @forelse ($memberships as $membership)
+                        <p><b>{{$membership->name}}</b></p>
+                    @empty
+                        <p><i>No plans purchased</i></p>
+                    @endforelse
                 </div>
             </div>
         </div>
