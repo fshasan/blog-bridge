@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Plan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Enums\PlanType;
 
 class PlanController extends Controller
 {
@@ -24,6 +26,26 @@ class PlanController extends Controller
     public function subscription(Request $request)
     {
         $plan = Plan::find($request->plan);
+
+        $userFreePlan = DB::table('subscriptions')
+                        ->where('user_id', Auth::id())
+                        ->where('stripe_price', PlanType::FREE)
+                        ->first();
+
+        if($request->plan === PlanType::FREE_PLAN && !empty($userFreePlan))
+        {
+            return redirect()->route('posts.index')->with('warning', 'Free plan already purchased!');
+        }
+
+        $userPremiumPlan = DB::table('subscriptions')
+                            ->where('user_id', Auth::id())
+                            ->where('stripe_price', PlanType::PREMIUM)
+                            ->first();
+
+        if($request->plan === PlanType::PREMIUM_PLAN && !empty($userPremiumPlan))
+        {
+            return redirect()->route('posts.index')->with('warning', 'Premium plan already purchased!');
+        }
    
         $subscription = $request->user()->newSubscription($request->plan, $plan->stripe_plan)
                         ->create($request->token);

@@ -16,7 +16,7 @@
    
                         <form id="payment-form" action="{{ route('subscription.create') }}" method="POST">
                             @csrf
-                            <input type="hidden" name="plan" id="plan" value="{{ $plan->id }}">
+                            <input type="hidden" name="plan" id="plan" value="{{ $plan->name }}">
        
                             <div class="row">
                                 <div class="col-xl-4 col-lg-4">
