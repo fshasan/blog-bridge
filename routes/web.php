@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PlanController;
+use App\Http\Controllers\MembershipController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,6 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::get('plans', [PlanController::class, 'index'])->name('membership.plan');
     Route::get('plans/{plan}', [PlanController::class, 'show'])->name('membership.show');
     Route::post('subscription', [PlanController::class, 'subscription'])->name('subscription.create');
+    Route::get('my_plans', [MembershipController::class, 'index'])->name('membership.my-plan');
 });
 
 require __DIR__.'/auth.php';

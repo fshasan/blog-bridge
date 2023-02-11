@@ -51,6 +51,12 @@
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
+                        @if (Auth::user()->is_admin == App\Enums\UserType::USER)
+                            <x-dropdown-link :href="route('membership.my-plan')">
+                                {{ __('My Plans') }}
+                            </x-dropdown-link>           
+                        @endif
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
