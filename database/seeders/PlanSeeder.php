@@ -26,8 +26,8 @@ class PlanSeeder extends Seeder
             [
                 'name' => 'Premium Plan', 
                 'slug' => 'premium-plan', 
-                'stripe_plan' => 'price_1MZKPmCSkADIfETSGC99rc37', 
-                'price' => 10, 
+                'stripe_plan' => 'price_1MaGu0CSkADIfETSB9gwJsNy', 
+                'price' => 0, 
                 'description' => 'This is premium membership plan. Premium members will be able to create unlimited posts.'
             ]
         ];
