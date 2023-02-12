@@ -34,7 +34,7 @@ class PostController extends Controller
 
         $count = $this->totalPostsToday();
 
-        if(($userSubscription->stripe_price == PlanType::FREE) && ($count == PostsPerDay::FREE_USER_LIMIT))
+        if(($userSubscription->stripe_price === PlanType::FREE) && ($count == PostsPerDay::FREE_USER_LIMIT))
         {
             return redirect(route('posts.index'))->with('warning', "Free users are not allowed to publish more than two (2) posts a day!");
         }
@@ -53,18 +53,16 @@ class PostController extends Controller
 
     public function totalPostsToday()
     {
-        $data = Post::with('user')
-                ->where('user.id', Auth::id())
-                ->where('created_at', '>=', Carbon::now()->startOfDay())
-                ->count();
-        
+        $data = Post::where('user_id', Auth::id())
+                    ->where('created_at', '>=', Carbon::now()->startOfDay())
+                    ->count();            
         return $data;
     }
 
     public function getCurrentSubscription()
     {
-        $data = DB::table('subscriptions')->where('user_id', Auth::id())->get();
-
+        $data = DB::table('subscriptions')->select('stripe_price')->where('user_id', Auth::id())->first();
+        
         return $data;
     }
 
