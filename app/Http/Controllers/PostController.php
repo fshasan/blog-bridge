@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+use App\Enums\UserType;
 use App\Enums\PostsPerDay;
 use App\Enums\PlanType;
+use App\Mail\UserPostMail;
 use Carbon\Carbon;
 
 class PostController extends Controller
@@ -44,8 +48,20 @@ class PostController extends Controller
             ]);
 
             $request->user()->posts()->create($validated);
+
+            $email = User::select('email')
+                        ->where('is_admin', UserType::ADMIN)
+                        ->first();
+
+            $mailData = [
+                'user' => Auth::id(),
+                'title' => $request->input('title'),
+                'description' => $request->input('description')
+            ];
+
+            Mail::to($email)->send(new UserPostMail($mailData));
      
-            return redirect(route('posts.index'))->with('success', "Post created successfully!");
+            return redirect(route('posts.index'))->with(array('success' => 'Post created successfully!', 'success' => 'Mail Sent to Admin!'));
         }
 
     }

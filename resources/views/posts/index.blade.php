@@ -18,14 +18,14 @@
                 <textarea id="description" name="description" placeholder="{{ __('What\'s on your mind?') }}"
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-3"></textarea>
                 <x-input-error :messages="$errors->get('description')" class="mt-2" />
-                @if (Auth::user()->is_admin == App\Enums\UserType::USER && $userPlan->stripe_price === App\Enums\PlanType::PREMIUM)
+                {{-- @if (Auth::user()->is_admin == App\Enums\UserType::USER && $userPlan->stripe_price === App\Enums\PlanType::PREMIUM)
                     <button class="btn btn-primary btn-block shadow rounded-pill mt-2" type="submit" name="action" value="scheduledPost"><b>Schedule</b></button>
-                @endif
+                @endif --}}
                 <button class="btn btn-primary btn-block shadow rounded-pill mt-2 ml-4" type="submit" name="action" value="post"><b>Post</b></button>
                 <button id="resetBtn" type="button" class="btn btn-primary btn-block shadow rounded-pill mt-2 ml-4">Reset</button>
             </form>
             <div class="mt-6 bg-white shadow-sm rounded-lg divide-y">
-                @foreach ($posts as $post)
+                {{-- @foreach ($posts as $post)
                     <div class="p-6 flex space-x-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 -scale-x-100"
                             fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -72,7 +72,7 @@
                             <p class="mt-4 text-lg text-gray-900">{{ $post->description }}</p>
                         </div>
                     </div>
-                @endforeach
+                @endforeach --}}
             </div>
         </div>
     @endif
