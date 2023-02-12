@@ -16,9 +16,7 @@ class PostController extends Controller
     {
         $posts = Post::with('user')->latest()->get();
 
-        $userPlan = DB::table('subscriptions')
-                            ->where('user_id', Auth::id())
-                            ->first();
+        $userPlan = $this->getCurrentSubscription();
 
         return view('posts.index', compact('posts', 'userPlan'));
     }
@@ -61,8 +59,8 @@ class PostController extends Controller
 
     public function getCurrentSubscription()
     {
-        $data = DB::table('subscriptions')->select('stripe_price')->where('user_id', Auth::id())->first();
-        
+        $data = DB::table('subscriptions')->where('user_id', Auth::id())->first();
+
         return $data;
     }
 
