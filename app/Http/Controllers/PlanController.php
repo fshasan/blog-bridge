@@ -25,43 +25,58 @@ class PlanController extends Controller
 
     public function subscription(Request $request)
     {
-        $plan = Plan::find($request->plan);
+        $plan = DB::table('plans')
+                    ->where('name', $request->plan)
+                    ->first();
 
-        $userFreePlan = DB::table('subscriptions')
-                        ->where('user_id', Auth::id())
-                        ->where('stripe_price', PlanType::FREE)
-                        ->first();
-
-        if($request->plan === PlanType::FREE_PLAN && !empty($userFreePlan))
+        if(DB::table('subscriptions')->count() == 0)
         {
-            return redirect()->route('posts.index')->with('warning', 'Free plan already purchased!');
+            $subscription = $request->user()->newSubscription($request->plan, $plan->stripe_plan)
+            ->create($request->token);
+
+            return view("membership.subscription_success");
         }
-        elseif($request->plan === PlanType::PREMIUM_PLAN && !empty($userFreePlan))
+
+        else
         {
+            $userFreePlan = DB::table('subscriptions')
+                            ->where('user_id', Auth::id())
+                            ->where('stripe_price', PlanType::FREE)
+                            ->first();
+
+            if($request->plan === PlanType::FREE_PLAN && !empty($userFreePlan))
+            {
+            return redirect()->route('posts.index')->with('warning', 'Free plan already purchased!');
+            }
+            elseif($request->plan === PlanType::PREMIUM_PLAN && !empty($userFreePlan))
+            {
             DB::table('subscriptions')->where('user_id', Auth::id())->update(array('stripe_price' => PlanType::PREMIUM));
 
             return redirect()->route('posts.index')->with('success', 'Upgraded to premium plan!');
-        }
+            }
 
-        $userPremiumPlan = DB::table('subscriptions')
+            $userPremiumPlan = DB::table('subscriptions')
                             ->where('user_id', Auth::id())
                             ->where('stripe_price', PlanType::PREMIUM)
                             ->first();
 
-        if($request->plan === PlanType::PREMIUM_PLAN && !empty($userPremiumPlan))
-        {
+            if($request->plan === PlanType::PREMIUM_PLAN && !empty($userPremiumPlan))
+            {
             return redirect()->route('posts.index')->with('warning', 'Premium plan already purchased!');
-        }
-        elseif($request->plan === PlanType::FREE_PLAN && !empty($userPremiumPlan))
-        {
+            }
+            elseif($request->plan === PlanType::FREE_PLAN && !empty($userPremiumPlan))
+            {
             DB::table('subscriptions')->where('user_id', Auth::id())->update(array('stripe_price' => PlanType::FREE));
 
             return redirect()->route('posts.index')->with('success', 'Downgraded to free plan!');
-        }
-   
-        $subscription = $request->user()->newSubscription($request->plan, $plan->stripe_plan)
+            }
+
+            $subscription = $request->user()->newSubscription($request->plan, $plan->stripe_plan)
                         ->create($request->token);
-   
-        return view("membership.subscription_success");
+
+            return view("membership.subscription_success");
+        }
+
+
     }
 }
