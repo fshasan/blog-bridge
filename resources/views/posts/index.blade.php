@@ -7,22 +7,22 @@
         </x-slot>
     @else
         <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
-            <form method="POST" action="{{ route('posts.store') }}">
+            <form method="POST" action="{{ route('posts.store') }}" id="postForm">
                 @csrf
                 <label for="title">Title</label>
                 <input id="title" placeholder="{{ __('Give a title') }}"
-                    class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                    class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-3 mb-3"
                     name="title" type="text">
                 <x-input-error :messages="$errors->get('title')" class="mt-2" />
                 <label for="description">Description</label>
                 <textarea id="description" name="description" placeholder="{{ __('What\'s on your mind?') }}"
-                    class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"></textarea>
+                    class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-3"></textarea>
                 <x-input-error :messages="$errors->get('description')" class="mt-2" />
-                {{-- @if (Auth::user()->is_admin == App\Enums\UserType::USER && $userPlan->stripe_price === App\Enums\PlanType::PREMIUM)
-                    <x-primary-button class="mt-4">{{ __('Scheduled') }}</x-primary-button>
-                @endif --}}
-
-                <x-primary-button class="mt-4">{{ __('Post') }}</x-primary-button>
+                @if (Auth::user()->is_admin == App\Enums\UserType::USER && $userPlan->stripe_price === App\Enums\PlanType::PREMIUM)
+                    <button class="btn btn-primary btn-block shadow rounded-pill mt-2" type="submit" name="action" value="scheduledPost"><b>Schedule</b></button>
+                @endif
+                <button class="btn btn-primary btn-block shadow rounded-pill mt-2 ml-4" type="submit" name="action" value="post"><b>Post</b></button>
+                <button id="resetBtn" type="button" class="btn btn-primary btn-block shadow rounded-pill mt-2 ml-4">Reset</button>
             </form>
             <div class="mt-6 bg-white shadow-sm rounded-lg divide-y">
                 @foreach ($posts as $post)
@@ -76,5 +76,14 @@
             </div>
         </div>
     @endif
+    
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#resetBtn").click(function(){
+                $("#postForm").trigger("reset");
+            });
+        });
+    </script>
 
 </x-app-layout>
