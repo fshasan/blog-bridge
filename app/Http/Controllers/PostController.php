@@ -32,31 +32,21 @@ class PostController extends Controller
 
         $count = $this->totalPostsToday();
 
-        switch ($request->input('action')) {
-            case 'post':
-                if(($userSubscription->stripe_price === PlanType::FREE) && ($count == PostsPerDay::FREE_USER_LIMIT))
-                {
-                    return redirect(route('posts.index'))->with('warning', "Free users are not allowed to publish more than two (2) posts a day!");
-                }
-                else
-                {
-                    $validated = $request->validate([
-                        'title' => 'required|string|max:100',
-                        'description' => 'required',
-                    ]);
-        
-                    $request->user()->posts()->create($validated);
-             
-                    return redirect(route('posts.index'))->with('success', "Post created successfully!");
-                }
-                break;
-    
-            case 'scheduledPost':
-
-                break;
-
+        if(($userSubscription->stripe_price === PlanType::FREE) && ($count == PostsPerDay::FREE_USER_LIMIT))
+        {
+            return redirect(route('posts.index'))->with('warning', "Free users are not allowed to publish more than two (2) posts a day!");
         }
+        else
+        {
+            $validated = $request->validate([
+                'title' => 'required|string|max:100',
+                'description' => 'required',
+            ]);
 
+            $request->user()->posts()->create($validated);
+     
+            return redirect(route('posts.index'))->with('success', "Post created successfully!");
+        }
 
     }
 
