@@ -7,17 +7,21 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use App\Enums\UserType;
 use App\Enums\PostsPerDay;
 use App\Enums\PlanType;
+use App\Enums\CacheTime;
 use Carbon\Carbon;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::with('user')->latest()->get();
-
+       $posts = Cache::remember('user-posts', CacheTime::CACHE_FOR_A_MINUTE, function() {
+            return Post::with('user')->latest()->get();
+        });
+    
         $userPlan = $this->getCurrentSubscription();
 
         return view('posts.index', compact('posts', 'userPlan'));
