@@ -5,4 +5,11 @@
             {{ Auth::user()->name}}
         </h2>
     </x-slot>
+    @if (Auth::user()->is_admin === App\Enums\UserType::ADMIN)
+        @foreach ($users as $user)
+            <p>{{$user->name}}</p>
+        @endforeach
+    @else
+        
+    @endif
 </x-app-layout>

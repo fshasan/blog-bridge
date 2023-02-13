@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PlanController;
@@ -21,10 +22,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// user dashbpard
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// user dashbpard (both normal user & admin)
+Route::get('/dashboard', [UserController::class, 'getUsers'])->middleware(['auth', 'verified'])->name('dashboard');
 
 // blog API
 Route::resource('posts', PostController::class)->only(['index', 'store', 'edit', 'update', 'destroy'])->middleware(['auth', 'verified']);
