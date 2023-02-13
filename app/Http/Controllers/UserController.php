@@ -13,7 +13,7 @@ class UserController extends Controller
     public function getUsers()
     {
         $users = Cache::remember('user-info', CacheTime::CACHE_FOR_A_MINUTE, function() {
-            return User::where('is_admin', UserType::USER)->latest()->paginate();
+            return User::where('is_admin', UserType::USER)->latest()->paginate(10);
         });
         
         return view('dashboard', compact('users'));

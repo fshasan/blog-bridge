@@ -75,7 +75,11 @@
                     </div>
                 @endforeach
             </div>
+            <div class="mt-4">
+                {{ $posts->links() }}  
+            </div>
         </div>
+
     @endif
     
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>

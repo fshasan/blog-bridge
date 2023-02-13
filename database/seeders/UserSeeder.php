@@ -18,20 +18,20 @@ class UserSeeder extends Seeder
     {
         $users = [
             [
-                'name' => 'admin1',
-                'email' => 'admin@gmail.com',
+                'name' => 'admin2',
+                'email' => 'admi2@gmail.com',
                 'password' => bcrypt('12345678'),
                 'is_admin' => UserType::ADMIN
             ],
             [
-                'name' => 'user1',
-                'email' => 'user1@gmail.com',
+                'name' => 'user10',
+                'email' => 'user10@gmail.com',
                 'password' => bcrypt('12345678'),
                 'is_admin' => UserType::USER
             ],
             [
-                'name' => 'user2',
-                'email' => 'user2@gmail.com',
+                'name' => 'user20',
+                'email' => 'user20@gmail.com',
                 'password' => bcrypt('12345678'),
                 'is_admin' => UserType::USER
             ]
