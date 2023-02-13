@@ -57,9 +57,5 @@ class UserPostMail extends Mailable
     {
         return [];
     }
-
-    public function build()
-    {
-        return $this->subject('User post create')->with('mailData', $this->mailData);
-    }
+    
 }
