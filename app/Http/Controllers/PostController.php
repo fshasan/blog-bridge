@@ -18,8 +18,9 @@ class PostController extends Controller
 {
     public function index()
     {
+       Cache::forget('user-posts');
        $posts = Cache::remember('user-posts', CacheTime::CACHE_FOR_A_MINUTE, function() {
-            return Post::with('user')->latest()->paginate(10);
+            return Post::with('user')->latest()->paginate(5);
         });
     
         $userPlan = $this->getCurrentSubscription();
