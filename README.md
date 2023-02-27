@@ -8,7 +8,7 @@ Blog Bridge is a simple online publishing platform (something like medium) with 
 
 We have two kinds of users, `admin` and `end user`. The user types are denoted by Enums.
 
-```sh
+```php
     <?php
 
     namespace App\Enums;
@@ -23,7 +23,7 @@ We have two kinds of users, `admin` and `end user`. The user types are denoted b
 
 There are two types of membership plans that a user can choose. As a user, he/she can upgrade or downgrade their membership plan based on their current membership plan status. The types of plans are shown here:
 
-```sh
+```json
     "Plan": [
       {
         "id": 0,
