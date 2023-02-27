@@ -1,3 +1,3 @@
-## Blog Bridge
+## What is Blog Bridge?
 
-An online blog posting site with stripe payment system.
+Blog Bridge is a simple online publishing platform (something like medium) with membership options. The publishing platform allows a user to create blog posts that inlcudes a <b>title</b> and a <b>description</b>. A user can choose their own membership package from the membersip option and make the payment process via stripe payment system. The `core` folder of the project contains the frontend design, API Endpoints and the environment variables.
