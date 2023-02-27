@@ -52,7 +52,7 @@ To run this project, you need to have these installed on your local machine.
 
 After downloading the project from github, you need to follow these commands:
 
-* Switch to the `core` folder and make of copy of `.env.example` into your local `.env`
+* Switch to the `core` folder and make a copy of `.env.example` into your local `.env`
 
 ```sh
     cp .env.example .env
@@ -77,7 +77,7 @@ After downloading the project from github, you need to follow these commands:
 ```sh
     php artisan migrate
 ```
-* After migration, you can start the server to check your application
+* After migration, you can start the server
 
 ```sh
     php artisan serve
