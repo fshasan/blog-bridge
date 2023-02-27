@@ -55,39 +55,35 @@ After downloading the project from github, you need to follow these commands:
 ```sh
     cp .env.example .env
 ```
-
 * Run composer install command to install/reload the project dependencies
 
 ```sh
     composer install
 ```
-
 * Then run this command to generate the application key
 
 ```sh
     php artisan key:generate
 ```
-
 * Give access to the storage folder of the project
 
 ```sh
     chmod -R 777 storage/
 ```
-
 * For table migration to the database, run the command below
 
 ```sh
     php artisan migrate
 ```
-
 * After migration, you can start the server to check your application
 
 ```sh
     php artisan serve
 ```
-
 * Now open another terminal and run npm for loading the frontend dependencies
 
 ```sh
    npm install && run dev
 ```
+
+After installation, check at http://127.0.0.1:8000/ to view your application.
