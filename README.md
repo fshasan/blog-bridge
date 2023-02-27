@@ -36,17 +36,19 @@ There are two types of membership plans that a user can choose. As a user, he/sh
 
 The db schema of the project is shown below:
 
-<img src="">
+ <p align="center">
+   <img src="./images/db-schema.PNG">
+</p>
 
 ## Installation
 
 To run this project, you need to have these installed on your local machine.
 
-* PHP 8
-* Composer
-* MySQL
-* Apache or Nginx
-* npm
+* [PHP](https://www.php.net/downloads.php)
+* [Composer](https://getcomposer.org/)
+* [MySQL](https://www.mysql.com/downloads/)
+* [Apache](https://httpd.apache.org/download.cgi) or [Nginx](http://nginx.org/en/download.html)
+* [npm](https://www.npmjs.com/package/download)
 
 After downloading the project from github, you need to follow these commands:
 
