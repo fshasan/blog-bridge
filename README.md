@@ -6,8 +6,19 @@ Blog Bridge is a simple online publishing platform (something like medium) with 
 
 ### User Type
 
-We have two kinds of users, `admin` and `end user`.
+We have two kinds of users, `admin` and `end user`. The user types are denoted by Enums.
 
+```sh
+    <?php
+
+    namespace App\Enums;
+
+    interface UserType
+    {
+        const USER = 0;
+        const ADMIN = 1;
+    }
+```
 ### Membership Plan
 
 There are two types of membership plans that a user can choose. As a user, he/she can upgrade or downgrade their membership plan based on their current membership plan status. The types of plans are shown here:
