@@ -92,7 +92,7 @@ After downloading the project from github, you need to follow these commands:
 * For table migration to the database, run the command below
 
 ```sh
-    php artisan migrate
+    php artisan migrate:fresh --seed --seeder=DatabaseSeeder
 ```
 * After migration, you can start the server
 
