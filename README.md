@@ -1,10 +1,10 @@
 ## What is Blog Bridge?
 
-Blog Bridge is a simple online publishing platform (something like medium) with membership options. The publishing platform allows a user to create blog posts that includes a <b>title</b> and a <b>description</b>. Users can choose their own membership package from the membersip option and make the payment process via stripe payment system. The `core` folder of the project contains the frontend design, API Endpoints and the environment variables.
+Blog Bridge is an online publishing platform with membership options. It allows users to create blog posts with a title and description, and users can choose their own membership package and make the payment process via stripe payment system.
 
 ## Key Features
 
-### User Type
+### User Types
 
 We have two kinds of users, `admin` and `end user`. The user types are denoted by Enums.
 
@@ -21,7 +21,7 @@ We have two kinds of users, `admin` and `end user`. The user types are denoted b
 ```
 ### Membership Plan
 
-There are two types of membership plans that a user can choose. As a user, he/she can upgrade or downgrade their membership plan based on their current membership plan status. The types of plans are shown here:
+User can choose between two types of membership plans. They have options to upgrade or downgrade their membership plan.
 
 ```json
     "Plan": [
@@ -47,7 +47,7 @@ There are two types of membership plans that a user can choose. As a user, he/sh
 * Premium members will be able to create unlimited posts daily.
 * Can edit or update their own posts.
 * Can schedule their posts and the posts will be automatically published at their scheduled time. <i>(task still ongoing)</i>
-* Can downgrade to free plan, but will lose all the premium plan package priviledges.
+* Can downgrade to free plan, but will lose all the premium plan package privileges.
 
 ## Database Schema
 
@@ -94,7 +94,7 @@ After downloading the project from github, you need to follow these commands:
 ```sh
     php artisan migrate:fresh --seed
 ```
-* After migration, you can start the server
+* After migration, you can start the server. (No need for this command if you are using Laragon or Docker)
 
 ```sh
     php artisan serve
@@ -104,5 +104,3 @@ After downloading the project from github, you need to follow these commands:
 ```sh
    npm install && run dev
 ```
-
-After installation, check at http://127.0.0.1:8000/ to view your application.
