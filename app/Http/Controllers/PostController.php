@@ -12,6 +12,7 @@ use App\Enums\UserType;
 use App\Enums\PostsPerDay;
 use App\Enums\PlanType;
 use App\Enums\CacheTime;
+use App\Http\Requests\PostRequest;
 use Carbon\Carbon;
 
 class PostController extends Controller
@@ -33,7 +34,7 @@ class PostController extends Controller
         //
     }
 
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {   
         $userSubscription = $this->getCurrentSubscription();
 
@@ -41,24 +42,19 @@ class PostController extends Controller
 
         if(($userSubscription->stripe_price === PlanType::FREE) && ($count == PostsPerDay::FREE_USER_LIMIT))
         {
-            return redirect(route('posts.index'))->with('warning', "Free users are not allowed to publish more than two (2) posts a day!");
+            return redirect()->route('posts.index')->with('warning', "Free users are not allowed to publish more than two (2) posts a day!");
         }
         else
         {
-            $validated = $request->validate([
-                'title' => 'required|string|max:100',
-                'description' => 'required',
-            ]);
-
-            $request->user()->posts()->create($validated);
+            $request->user()->posts()->create($request->validated());
 
             $details['email'] = User::select('email')
                                     ->where('is_admin', UserType::ADMIN)
                                     ->first();
 
-            dispatch(new App\Jobs\SendEmailJob($details));
+            // dispatch(new App\Jobs\SendEmailJob($details));
      
-            return redirect(route('posts.index'))->with(array('success' => 'Post created successfully!', 'success' => 'Mail Sent to Admin!'));
+            return redirect()->route('posts.index')->with(['success' => 'Post created successfully!', 'success' => 'Mail Sent to Admin!']);
         }
 
     }
@@ -82,21 +78,12 @@ class PostController extends Controller
     {
         $this->authorize('update', $post);
  
-        return view('posts.edit', [
-            'post' => $post,
-        ]);
+        return view('posts.edit', compact('post'));
     }
 
-    public function update(Request $request, Post $post)
+    public function update(PostRequest $request, Post $post)
     {
-        $this->authorize('update', $post);
- 
-        $validated = $request->validate([
-            'title' => 'required|string|max:100',
-            'description' => 'required',
-        ]);
- 
-        $post->update($validated);
+        $post->update($request->validated());
  
         return redirect(route('posts.index'));
     }
