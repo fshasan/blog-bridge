@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -9,11 +10,18 @@ class Profile extends Component
 {
     public $name;
     public $email;
+    public $success = false;
+
+    public User $user;
+
+    protected $rules = [
+        'name' => 'required',
+        'email' => 'required|email',
+    ];
 
     public function mount()
     {
-        $this->name = Auth::user()->name;
-        $this->email = Auth::user()->email;
+        $this->user = Auth::user();
     }
     public function render()
     {
@@ -22,9 +30,15 @@ class Profile extends Component
 
     public function updateProfile()
     {
+        $this->validate();
+
         Auth::user()->update([
             'name' => $this->name,
             'email' => $this->email,
         ]);
+
+        $this->success = true;
+
+        session()->flash('message', 'Profile successfully updated.');
     }
 }
