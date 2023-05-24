@@ -18,7 +18,8 @@
                 <textarea id="description" name="description" placeholder="{{ __('What\'s on your mind?') }}"
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-3"></textarea>
                 <x-input-error :messages="$errors->get('description')" class="mt-2" />
-                @if (Auth::user()->is_admin == App\Enums\UserType::USER && $userPlan->stripe_price === App\Enums\PlanType::PREMIUM)
+
+                @if (Auth::user()->isAdmin() && $userPlan->stripe_price && $userPlan->stripe_price === App\Enums\PlanType::PREMIUM)
                     <button class="btn btn-primary btn-block shadow rounded-pill mt-2" type="submit" name="action" value="scheduledPost"><b>Schedule</b></button>
                 @endif
                 <button class="btn btn-primary btn-block shadow rounded-pill mt-2 ml-4" type="submit" name="action" value="post"><b>Post</b></button>
@@ -76,12 +77,12 @@
                 @endforeach
             </div>
             <div class="mt-4">
-                {{ $posts->links() }}  
+                {{ $posts->links() }}
             </div>
         </div>
 
     @endif
-    
+
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script>
         $(document).ready(function(){
