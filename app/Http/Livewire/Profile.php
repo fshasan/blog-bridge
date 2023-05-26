@@ -15,8 +15,8 @@ class Profile extends Component
     public User $user;
 
     protected $rules = [
-        'name' => 'required',
-        'email' => 'required|email',
+        'name' => ['required'],
+        'email' => ['required', 'email'],
     ];
 
     public function mount()
