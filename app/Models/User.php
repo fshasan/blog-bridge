@@ -8,7 +8,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Post;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Laravel\Cashier\Billable;
+use Laravel\Cashier\Subscription;
 
 class User extends Authenticatable
 {
@@ -45,8 +48,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function posts()
+    public function isAdmin()
+    {
+        return $this->is_admin == 1 ? true : false;
+    }
+
+    public function posts() : HasMany
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function subscription() : HasOne
+    {
+        return $this->hasOne(Subscription::class);
     }
 }
