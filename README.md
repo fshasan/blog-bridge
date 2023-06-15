@@ -2,61 +2,6 @@
 
 Blog Bridge is an online publishing platform with membership options. It allows users to create blog posts with a title and description, and users can choose their own membership package and make the payment process via stripe payment system.
 
-## Key Features
-
-### User Types
-
-We have two kinds of users, `admin` and `end user`. The user types are denoted by Enums.
-
-```php
-    <?php
-
-    namespace App\Enums;
-
-    interface UserType
-    {
-        const USER = 0;
-        const ADMIN = 1;
-    }
-```
-### Membership Plan
-
-User can choose between two types of membership plans. They have options to upgrade or downgrade their membership plan.
-
-```json
-    "Plan": [
-      {
-        "id": 0,
-        "name": "Free"
-      },
-      {
-        "id": 1,
-        "name": "Premium"
-      }
-    ]
-```
-
-#### Free Plan
-
-* Free members will be able to create 2 posts (maximum) daily.
-* Can edit or update their own posts.
-* Can upgrade to premium plan if he/she wills.
-
-#### Premium Plan
-
-* Premium members will be able to create unlimited posts daily.
-* Can edit or update their own posts.
-* Can schedule their posts and the posts will be automatically published at their scheduled time. <i>(task still ongoing)</i>
-* Can downgrade to free plan, but will lose all the premium plan package privileges.
-
-## Database Schema
-
-The db schema of the project is shown below:
-
- <p align="center">
-   <img src="./images/db-schema.PNG">
-</p>
-
 ## Installation
 
 To run this project, you need to have these installed on your local machine.
